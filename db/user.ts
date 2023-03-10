@@ -3,7 +3,9 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 export const listUsers = async() => {
-    return prisma.user.findMany()
+    return prisma.user.findMany({
+        include: {posts: true, profile: true}
+    })
 }
 
 /**
@@ -28,6 +30,7 @@ export const newUser = async(name: string | null, email: string) => {
  */
 export const findUserbyID = async(userID: number) => {
     return await prisma.user.findUnique({
-        where: {id: userID}
+        where: {id: userID},
+        include: {posts: true, profile: true}
     })
 }
